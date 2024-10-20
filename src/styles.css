@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Open Sans';
+    src: url('assets/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-style: normal;
+}
+
+:root {
+    --primary-color: #007bff;  /* Light Blue */
+    --accent-blue: #6f9cdb;  
+    --gradient-background: linear-gradient(135deg, #4a90e2, #6f9cdb);
+    --background-color: #f7f7f7;
+}
+
+* {
+    font-family: 'Open Sans', sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background: var(--background-color);
+    height: 100%;
+    width: 100%;
+}
+
+.pi {
+    font-family: 'PrimeIcons' !important;
+}
