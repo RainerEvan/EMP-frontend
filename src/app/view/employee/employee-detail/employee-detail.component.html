@@ -1,1 +1,37 @@
-<p>employee-detail works!</p>
+<div class="back-section">
+    <button pButton pRipple (click)="back()" label="Back" icon="pi pi-chevron-left" class="p-button-text"></button>
+</div>
+<div class="container">
+    <div class="title">
+        <h3>Employee Detail</h3>
+    </div>
+    <p-tabView styleClass="tabview-custom">
+        <p-tabPanel header="Profile">
+            <ng-template pTemplate = "header">
+                <i class="pi pi-id-card mr-2"></i>
+                <span>Profile</span>
+            </ng-template>
+            <app-profile></app-profile>
+        </p-tabPanel>
+        <p-tabPanel header="Paycheck">
+            <ng-template pTemplate = "header">
+                <i class="pi pi-briefcase mr-2"></i>
+                <span>Work</span>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <app-work></app-work>
+            </ng-template>
+        </p-tabPanel>
+        <p-tabPanel header="Paycheck">
+            <ng-template pTemplate = "header">
+                <i class="pi pi-money-bill mr-2"></i>
+                <span>Paycheck</span>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <app-paycheck></app-paycheck>
+            </ng-template>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

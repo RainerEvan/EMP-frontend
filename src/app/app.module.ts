@@ -1,22 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './view/login/login.component';
 import { MainComponent } from './view/main/main.component';
-import { HomeComponent } from './view/home/home.component';
+
+import { ButtonModule } from 'primeng/button';
+import { SidebarModule } from 'primeng/sidebar';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    MainComponent,
-    HomeComponent
+    MainComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SidebarModule,
+    ButtonModule,
+    TabViewModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,56 @@
+<div class="flex gap-4">
+    <div class="box flex-row align-items-center justify-content-center">
+        <p-avatar icon="pi pi-user"></p-avatar>
+        <div class="flex align-items-center justify-content-center mt-4">
+            <button pButton pRipple label="Upload Image" icon="pi pi-upload" class="p-button-sm"></button>
+        </div>
+    </div>
+    <div class="w-full box">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">PERSONAL INFO</h3>
+            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">NIK</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">327310298410001</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Full Name</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Abraham Johnson</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Birth Place</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Bandung</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Birth Date</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">10-Maret-2001</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Phone Number</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">081297112939</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between">
+            <label class="col label" for="username">Email</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">abraham_johnsongmail.com</p>
+            </div>
+        </div>
+    </div>
+</div>

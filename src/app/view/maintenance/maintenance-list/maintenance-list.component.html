@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="title">
+        <h3>List Maintenance Group</h3>
+    </div>
+    <p-table #dt [value]="maintenanceGroups" [rows]="10" [paginator]="true" [globalFilterFields]="['groupId','name','description','isActive']" [tableStyle]="{'min-width': '75rem'}"
+        [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-end">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenanceGroup()"></button>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>No</th>
+                <th pSortableColumn="groupId">Group ID<p-sortIcon field="groupId"></p-sortIcon></th>
+                <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="description">Description<p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="isActive">Status <p-sortIcon field="isActive"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-maintenanceGroup let-rowIndex="rowIndex">
+            <tr>
+                <td>{{rowIndex+1}}</td>
+                <td>{{maintenanceGroup.groupId}}</td>
+                <td>{{maintenanceGroup.name}}</td>
+                <td>{{maintenanceGroup.description}}</td>
+                <td>{{maintenanceGroup.isActive ? 'Active':'Not Active'}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openMaintenanceGroupDetail(maintenanceGroup)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deleteMaintenanceGroup(maintenanceGroup)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                Total Maintenance Group {{maintenanceGroups ? maintenanceGroups.length : 0 }}
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

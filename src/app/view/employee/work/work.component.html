@@ -1,0 +1,77 @@
+<div class="flex gap-4">
+    <div class="w-full box">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">JOB INFO</h3>
+            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Employee ID</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">U0001</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Position</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Staff</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Department</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Logistics</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Start Date</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">14-Maret-2020</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">End Date</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">-</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between">
+            <label class="col label" for="username">Status</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Active</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-full box">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">SALARY INFO</h3>
+            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Bank Account</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">BANK BCA</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Bank Account Number</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">4481230984</p>
+            </div>
+        </div>
+        <div class="grid align-items-center justify-content-between mb-3">
+            <label class="col label" for="username">Base Salary</label>
+            <div class="col">
+                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                <p class="value" *ngIf="!isEditable">Rp 7,500,000.00</p>
+            </div>
+        </div>
+    </div>
+</div>

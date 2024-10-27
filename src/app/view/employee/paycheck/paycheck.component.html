@@ -1,0 +1,52 @@
+<div class="flex">
+    <div class="w-full box">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">PAYCHECK HISTORY</h3>
+        </div>
+        <div>
+            <p-table #dt [value]="paychecks" [rows]="10" [paginator]="true" [globalFilterFields]="['fileName','countSent','dateLastSent','createdAt']" [tableStyle]="{'min-width': '75rem'}"
+                [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-end">
+                        <button pButton pRipple label="Generate" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddPaycheck()"></button>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>No</th>
+                        <th pSortableColumn="fileName">File Name<p-sortIcon field="fileName"></p-sortIcon></th>
+                        <th pSortableColumn="countSent">Sent<p-sortIcon field="countSent"></p-sortIcon></th>
+                        <th pSortableColumn="dateLastSent">Last Sent<p-sortIcon field="dateLastSent"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt">Date Created<p-sortIcon field="createdAt"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-paycheck let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{rowIndex+1}}</td>
+                        <td>{{paycheck.fileName}}</td>
+                        <td>{{paycheck.countSent}}</td>
+                        <td>{{paycheck.dateLastSent}}</td>
+                        <td>{{paycheck.createdAt}}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-outlined p-button-sm p-button-info mr-2" (click)="openPaycheckDetail(paycheck)"></button>
+                            <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-button-outlined p-button-sm p-button-info mr-2" (click)="openPaycheckDetail(paycheck)"></button>
+                            <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openPaycheckDetail(paycheck)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deletePaycheck(paycheck)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        Total Report {{paychecks ? paychecks.length : 0 }}
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

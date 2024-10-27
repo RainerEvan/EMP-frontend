@@ -1,1 +1,32 @@
-<p>main works!</p>
+<div class="header">
+    <div class="flex align-items-center justify-content-between p-2">
+        <button pButton pRipple class="p-button-sm p-button-text" style="color: #ffffff;" (click)="toggleSidebar()" icon="pi pi-bars"></button>
+        <div class="logo">
+            <i class="pi pi-slack mr-2" style="font-size: 24px"></i>
+            <p>EMPLOYEE MANAGEMENT</p>
+        </div>
+    </div>
+</div>
+<div #maincontainer>
+    <router-outlet></router-outlet>
+</div>
+
+<p-sidebar [(visible)]="showSidebar" [baseZIndex]="400" position="left" [style]="{width:'16em'}" [showCloseIcon]="false" [appendTo]="maincontainer">
+    <ng-template pTemplate="header">
+        <div class="mt-7">
+            <h3>Welcome Bob</h3>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div class="flex-row align-items-center">
+            <a *ngFor="let menu of menus" [routerLink]="menu.link" routerLinkActive="active" (click)="toggleSidebar()"
+                #rla="routerLinkActive" class="nav-button" [class]="rla.isActive ? 'nav-button-active':''">
+                <i [class]="'pi ' + menu.icon" class="mr-2" style="font: 16px;"></i>
+                <p class="">{{menu.label}}</p>
+            </a>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button class="w-full p-button-sm" icon="pi pi-sign-out" pButton pRipple type="button" label="Logout" ></button>
+    </ng-template>
+</p-sidebar>

@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeflex/primeflex.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+
 @font-face {
     font-family: 'Open Sans';
     src: url('assets/fonts/OpenSans-Regular.ttf') format('truetype');
@@ -6,16 +9,14 @@
 }
 
 :root {
-    --primary-color: #007bff;  /* Light Blue */
-    --accent-blue: #6f9cdb;  
-    --gradient-background: linear-gradient(135deg, #4a90e2, #6f9cdb);
+    --primary-color: #007bff;
+    --accent-color: #6f9cdb;  
+    --gradient-background: linear-gradient(180deg, #4a90e2, #6f9cdb);
     --background-color: #f7f7f7;
 }
 
-* {
+html, body {
     font-family: 'Open Sans', sans-serif !important;
-    margin: 0;
-    padding: 0;
 }
 
 
@@ -25,6 +26,47 @@ body {
     width: 100%;
 }
 
+* {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+
 .pi {
     font-family: 'PrimeIcons' !important;
+}
+
+.container {
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    color: #495057;
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    padding-top: 2.25rem;
+    padding-bottom: 1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.title{
+    position: absolute;
+    top: -2rem;
+    z-index: 400;
+    background: var(--primary-color);
+    color: #ffffff;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.p-component {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 14px !important;
+}
+
+.p-tabview .p-tabview-panels {
+    padding: 1.25rem !important;
 }

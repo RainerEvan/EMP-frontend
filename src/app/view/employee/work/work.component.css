@@ -1,0 +1,10 @@
+.box {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 2rem;
+}
+
+.value {
+    color: #a7a7a7;
+    font-weight: lighter;
+}

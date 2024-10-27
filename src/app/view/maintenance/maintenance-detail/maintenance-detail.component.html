@@ -1,0 +1,133 @@
+<div class="back-section">
+    <button pButton pRipple (click)="back()" label="Back" icon="pi pi-chevron-left" class="p-button-text"></button>
+</div>
+<div class="container">
+    <div class="title">
+        <h3>Maintenance Group Detail</h3>
+    </div>
+    <div class="w-full box">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">GROUP INFO</h3>
+            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+        </div>
+        <div class="grid">
+            <div class="col">
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Group ID</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.groupId}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Name</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.name}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Description</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.description}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Status</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.isActive ? 'Active':'Not Active'}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Created At</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.createdAt}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Created By</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.createdBy}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Updated At</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.updatedAt}}</p>
+                    </div>
+                </div>
+                <div class="grid align-items-center justify-content-between mb-3">
+                    <label class="col label" for="username">Updated By</label>
+                    <div class="col">
+                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.updatedBy}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+    </div>
+    <div class="w-full box mt-4">
+        <div class="flex align-items-center justify-content-between mb-4">
+            <h3 class="header">Maintenance Param</h3>
+        </div>
+        <div>
+            <p-table #dt [value]="maintenances" [rows]="10" [paginator]="true" [globalFilterFields]="['fileName','countSent','dateLastSent','createdAt']" [tableStyle]="{'min-width': '75rem'}"
+                [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-end">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenance()"></button>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Extra Code 1</th>
+                        <th>Extra Code 2</th>
+                        <th>Extra Code 3</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-maintenance let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{rowIndex+1}}</td>
+                        <td>{{maintenance.name}}</td>
+                        <td>{{maintenance.description}}</td>
+                        <td>{{maintenance.priority}}</td>
+                        <td>{{maintenance.extraCd1}}</td>
+                        <td>{{maintenance.extraCd2}}</td>
+                        <td>{{maintenance.extraCd3}}</td>
+                        <td>{{maintenance.isActive ? 'Active':'Not Active'}}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openmaintenanceDetail(maintenance)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deletemaintenance(maintenance)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        Total Report {{maintenances ? maintenances.length : 0 }}
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

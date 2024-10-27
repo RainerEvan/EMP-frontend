@@ -20,6 +20,10 @@ const routes: Routes = [
         path: 'employee', 
         loadChildren: () => import('./view/employee/employee.module').then(m => m.EmployeeModule) 
       },
+      { 
+        path: 'maintenance', 
+        loadChildren: () => import('./view/maintenance/maintenance.module').then(m => m.MaintenanceModule) 
+      },
     ]
   },
   { 
@@ -28,7 +32,7 @@ const routes: Routes = [
   },
   { 
     path: '**', 
-    redirectTo: ''
+    redirectTo: 'login'
   }
 ];
 

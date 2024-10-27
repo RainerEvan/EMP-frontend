@@ -1,0 +1,21 @@
+:host ::ng-deep .p-avatar {
+    width: 240px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    font-size: 20px;
+}
+
+:host ::ng-deep .p-avatar .p-avatar-icon {
+    font-size: 36px;
+}
+
+.box {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 2rem;
+}
+
+.value {
+    color: #a7a7a7;
+    font-weight: lighter;
+}
