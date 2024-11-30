@@ -1,7 +1,7 @@
 export interface Maintenance{
     id:string;
     groupId:string;
-    priority:string;
+    paramCd:string;
     name:string;
     description?:string;
     extraCd1?:string;

@@ -9,6 +9,10 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService } from 'primeng/api';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -19,10 +23,15 @@ import { ConfirmationService } from 'primeng/api';
   imports: [
     CommonModule,
     MaintenanceRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
     TableModule,
     ButtonModule,
     ConfirmDialogModule,
-    InputTextModule
+    InputTextModule,
+    InputSwitchModule,
+    DialogModule
   ],
   providers:[ConfirmationService]
 })

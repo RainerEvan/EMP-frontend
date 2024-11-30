@@ -1,0 +1,114 @@
+<div class="back-section">
+    <button pButton pRipple (click)="back()" label="Back" icon="pi pi-chevron-left" class="p-button-text"></button>
+</div>
+<div class="container" *ngIf="paycheck">
+    <div class="title">
+        <h3>Paycheck Summary</h3>
+    </div>
+    <div class="flex align-items-center justify-content-end mb-3">
+        <button *ngIf="!isAddPaycheck" (click)="openGenerateReportDialog()" pButton pRipple label="View PDF" icon="pi pi-file-pdf" class="p-button-outlined p-button-sm p-button-info"></button>
+    </div>
+    <div class="flex gap-4 mb-4">
+        <div class="w-full box">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h3 class="header">PENDAPATAN</h3>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <label class="label" for="username">Gaji Pokok</label>
+                <div class="">
+                    <p-inputNumber (onBlur)="onBlurPendapatan()" *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.baseSalary" class="p-inputtext-sm"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.baseSalary | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <label class="label" for="username">Tunjangan Transportasi</label>
+                <div class="">
+                    <p-inputNumber (onBlur)="onBlurPendapatan()" *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.transportationAllowance" class="p-inputtext-sm"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.transportationAllowance | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <label class="label" for="username">Tunjangan Makan</label>
+                <div class="">
+                    <p-inputNumber (onBlur)="onBlurPendapatan()" *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.foodAllowance" class="p-inputtext-sm"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.foodAllowance | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-5">
+                <label class="label" for="username">Lembur</label>
+                <div class="">
+                    <p-inputNumber (onBlur)="onBlurPendapatan()" *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.overtime" class="p-inputtext-sm"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.overtime | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between">
+                <label class="label" for="username" style="font-weight: bold;">Total Pendapatan Kotor</label>
+                <div class="">
+                    <p class="total">Rp {{paycheck.totalGrossIncome | number:'1.0-0'}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-full box">
+            <div class="flex align-items-center justify-content-between mb-4">
+                <h3 class="header">POTONGAN</h3>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <div class="flex align-items-center">
+                    <label class="label" for="username">BPJS Kesehatan ({{bpjsKesehatan.extraCd1}}%)</label>
+                    <i class="pi pi-info-circle ml-2 mt-1" pTooltip="Persentase dapat diubah pada menu maintenance" style="font-size: 14px"></i>
+                </div>
+                <div class="">
+                    <p-inputNumber *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.bpjsKesehatan" class="p-inputtext-sm" [disabled]="true"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.bpjsKesehatan | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <div class="flex align-items-center">
+                    <label class="label" for="username">BPJS Ketenagakerjaan ({{bpjsKetenagakerjaan.extraCd1}}%)</label>
+                    <i class="pi pi-info-circle ml-2 mt-1" pTooltip="Persentase dapat diubah pada menu maintenance" style="font-size: 14px"></i>
+                </div>
+                <div class="">
+                    <p-inputNumber *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.bpjsKetenagakerjaan" class="p-inputtext-sm" [disabled]="true"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.bpjsKetenagakerjaan | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-4">
+                <div class="flex align-items-center">
+                    <label class="label" for="username">Pajak Penghasilan ({{pajakPenghasilan.extraCd1}}% Pendapatan Kotor)</label>
+                    <i class="pi pi-info-circle ml-2 mt-1" pTooltip="Persentase dapat diubah pada menu maintenance" style="font-size: 14px"></i>
+                </div>
+                <div class="">
+                    <p-inputNumber *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.tax" class="p-inputtext-sm" [disabled]="true"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.tax | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between mb-5">
+                <label class="label" for="username">Lain-lain</label>
+                <div class="">
+                    <p-inputNumber (onBlur)="onBlurPendapatan()" *ngIf="isAddPaycheck" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="paycheck.otherCut" class="p-inputtext-sm"></p-inputNumber>
+                    <p class="value" *ngIf="!isAddPaycheck">Rp {{paycheck.otherCut | number:'1.0-0'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-between">
+                <label class="label" for="username" style="font-weight: bold;">Total Potongan</label>
+                <div class="">
+                    <p class="total">Rp {{paycheck.totalDeduction | number:'1.0-0'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full box mb-4">
+        <div class="flex align-items-center justify-content-between">
+            <label class="label" for="username" style="font-weight: bold;">Gaji Bersih</label>
+            <div class="">
+                <p class="total">Rp {{paycheck.totalNetIncome | number:'1.0-0'}}</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isAddPaycheck" class="flex align-items-center justify-content-end mb-3">
+        <button *ngIf="isAddPaycheck" pButton pRipple label="Submit" icon="pi pi-save" class="p-button-sm p-button-success" (click)="openAddPaycheckDialog()"></button>
+    </div>
+</div>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

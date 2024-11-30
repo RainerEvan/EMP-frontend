@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { AppConstants } from 'src/app/AppConstants';
 import { MaintenanceGroup } from 'src/app/model/maintenance-group';
 import { MaintenanceService } from 'src/app/service/maintenance.service';
 
@@ -11,76 +13,115 @@ import { MaintenanceService } from 'src/app/service/maintenance.service';
 })
 export class MaintenanceListComponent implements OnInit {
 
-  maintenanceDialog: boolean;
-  maintenanceGroups: MaintenanceGroup[];
-  submitted: boolean;
-  statuses: any[];
+  isLoading: boolean = false;
 
-  constructor(private router: Router, private maintenanceService: MaintenanceService, private confirmationService: ConfirmationService) { }
+  maintenanceGroups: MaintenanceGroup[];
+  isLoadingTableMaintenanceGroup: boolean = false;
+
+  addMaintenanceGroupDialog: boolean = false;
+  addMaintenanceGroupForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router, private maintenanceService: MaintenanceService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.maintenanceService.getEmployees().subscribe({
-      next:(data:any) => {
-          this.maintenanceGroups = data;
-      },
-      error:(error:any) => {
-          console.log(error);
-      }
-    });
-
-    this.maintenanceGroups = [
-      {
-        id: '1',
-        groupId: '0001',
-        name: 'Employee Tax',
-        description: 'Tax for employee salary',
-        createdAt: '27-10-204',
-        createdBy: 'admin',
-        updatedAt: '-',
-        updatedBy: '-',
-        isActive: true
-      },
-      {
-        id: '2',
-        groupId: '0002',
-        name: 'Other Tax',
-        description: 'Other Tax',
-        createdAt: '27-10-204',
-        createdBy: 'admin',
-        updatedAt: '-',
-        updatedBy: '-',
-        isActive: true
-      }
-    ];
+    this.getListMaintenanceGroups();
+    this.generateAddMaintenanceGroupForm();
   }
 
-  openAddMaintenanceGroup() {
-    this.submitted = false;
-    this.maintenanceDialog = true;
+  getListMaintenanceGroups(){
+    this.isLoadingTableMaintenanceGroup = true;
+    this.maintenanceService.getListMaintenanceGroup().subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.maintenanceGroups = [...data.output];
+        }
+      },
+      error:(error:any) => {
+        this.isLoadingTableMaintenanceGroup = false;
+        console.log(error);
+      },
+      complete:() =>{
+        this.isLoadingTableMaintenanceGroup = false;
+      }
+    });
+  }
+
+  addMaintenanceGroup(maintenanceGroup:any){
+    this.isLoading = true;
+    this.maintenanceService.addMaintenanceGroup(maintenanceGroup).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.confirmationService.confirm({
+            header: 'Success',
+            message: 'Maintenance Group added successfully!',
+            rejectVisible: false,
+            icon: 'pi pi-check-circle',
+            accept: () => {
+              this.getListMaintenanceGroups();
+            }
+          });
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      }
+    });
+  }
+
+  deleteMaintenanceGroup(maintenanceGroupId: string){
+    this.isLoading = true;
+    this.maintenanceService.deleteMaintenanceGroup(maintenanceGroupId).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.getListMaintenanceGroups();
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      }
+    });
   }
 
   openMaintenanceGroupDetail(maintenanceGroup: MaintenanceGroup) {
-    this.router.navigate(['/maintenance', maintenanceGroup.id]);
+    this.router.navigate(['/maintenance', maintenanceGroup.groupId]);
   }
 
-  deletemaintenance(maintenanceGroup: MaintenanceGroup) {
+  openAddMaintenanceGroupDialog() {
+    this.addMaintenanceGroupDialog = true;
+    this.generateAddMaintenanceGroupForm();
+  }
+
+  closeAddMaintenanceGroupDialog(){
+    this.addMaintenanceGroupDialog = false;
+  }
+
+  openDeleteMaintenanceGroupDialog(maintenanceGroup: MaintenanceGroup) {
     this.confirmationService.confirm({
+        header: 'Delete Maintenance Group',
         message: 'Are you sure you want to delete ' + maintenanceGroup.name + '?',
-        header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.maintenanceGroups = this.maintenanceGroups.filter(val => val.id !== maintenanceGroup.id);
+          this.deleteMaintenanceGroup(maintenanceGroup.groupId);
         }
     });
   }
 
-  hideDialog() {
-    this.maintenanceDialog = false;
-    this.submitted = false;
+  generateAddMaintenanceGroupForm(){
+    this.addMaintenanceGroupForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: [''],
+      isActive: [true, Validators.required],
+    });
   }
 
-  savemaintenance() {
-    this.submitted = true;
+  onSubmitAddMaintenanceGroupForm(){
+    if(this.addMaintenanceGroupForm.valid){
+      this.addMaintenanceGroupDialog = false;
+      this.addMaintenanceGroup(this.addMaintenanceGroupForm.value);
+    }
   }
-
 }

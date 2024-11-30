@@ -70,3 +70,7 @@ body {
 .p-tabview .p-tabview-panels {
     padding: 1.25rem !important;
 }
+
+.p-tooltip-text{
+    font-size: 12px;
+}

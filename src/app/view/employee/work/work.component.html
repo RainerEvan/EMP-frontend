@@ -1,77 +1,88 @@
-<div class="flex gap-4">
+<div class="flex gap-4 mb-4" *ngIf="employee">
     <div class="w-full box">
         <div class="flex align-items-center justify-content-between mb-4">
             <h3 class="header">JOB INFO</h3>
-            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="!isEditable" (click)="toggleEditable()" pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="isEditable" (click)="toggleEditable()" pButton pRipple label="Close" icon="pi pi-times" class="p-button-sm p-button-danger"></button>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Employee ID</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">U0001</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.employeeId" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Employee ID" [disabled]="true">
+                <p class="value" *ngIf="!isEditable">{{employee.employeeId || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Position</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Staff</p>
+                <p-dropdown *ngIf="isEditable" [(ngModel)]="employee.position" styleClass="w-full" class="p-inputtext-sm" [options]="positions" optionLabel="description" optionValue="name" placeholder="Select Position"></p-dropdown>
+                <p class="value" *ngIf="!isEditable">{{employee.positionDesc || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Department</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Logistics</p>
+                <p-dropdown *ngIf="isEditable" [(ngModel)]="employee.department" styleClass="w-full" class="p-inputtext-sm" [options]="departments" optionLabel="description" optionValue="name" placeholder="Select Department"></p-dropdown>
+                <p class="value" *ngIf="!isEditable">{{employee.departmentDesc || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Start Date</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">14-Maret-2020</p>
+                <p-calendar *ngIf="isEditable" styleClass="w-full" [(ngModel)]="employee.dateStart" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select Start Date"></p-calendar>
+                <p class="value" *ngIf="!isEditable">{{employee.dateStart || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">End Date</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">-</p>
+                <p-calendar *ngIf="isEditable" styleClass="w-full" [(ngModel)]="employee.dateEnd" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select End Date"></p-calendar>
+                <p class="value" *ngIf="!isEditable">{{employee.dateEnd || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between">
             <label class="col label" for="username">Status</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Active</p>
+                <div *ngIf="isEditable" class="flex gap-2">
+                    <p-inputSwitch [(ngModel)]="employee.isActive"></p-inputSwitch>
+                    <p class="mt-1" style="font-weight: bold;">{{employee.isActive ? 'Active':'Not Active'}}</p>
+                </div>
+                <p class="value" *ngIf="!isEditable">{{employee.isActive ? 'Active':'Not Active'}}</p>
             </div>
         </div>
     </div>
     <div class="w-full box">
         <div class="flex align-items-center justify-content-between mb-4">
             <h3 class="header">SALARY INFO</h3>
-            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="!isEditable" (click)="toggleEditable()" pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="isEditable" (click)="toggleEditable()" pButton pRipple label="Close" icon="pi pi-times" class="p-button-sm p-button-danger"></button>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Bank Account</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">BANK BCA</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.bankAccount" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Bank Account">
+                <p class="value" *ngIf="!isEditable">{{employee.bankAccount || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Bank Account Number</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">4481230984</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.bankAccountNum" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Bank Account Number">
+                <p class="value" *ngIf="!isEditable">{{employee.bankAccountNum || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Base Salary</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Rp 7,500,000.00</p>
+                <p-inputNumber *ngIf="isEditable" prefix="Rp " locale="en-US" [min]="0" [(ngModel)]="employee.baseSalary" styleClass="w-full" class="w-full p-inputtext-sm" placeholder="Enter Base Salary"></p-inputNumber>
+                <p class="value" *ngIf="!isEditable"><span *ngIf="employee.baseSalary">Rp </span>{{(employee.baseSalary | number:'1.0-0') || '-'}}</p>
             </div>
         </div>
     </div>
 </div>
+<div *ngIf="isEditable" class="flex align-items-center justify-content-end mb-3">
+    <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-sm p-button-success" (click)="onSubmitUpdateEmployeeWorkForm()"></button>
+</div>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

@@ -8,10 +8,12 @@ export interface Employee{
     nik?:string;
     employeeId?:string;
     position?:string;
+    positionDesc?:string;
     department?:string;
+    departmentDesc?:string;
     dateStart?:string;
     dateEnd?:string;
-    baseSalary?:string;
+    baseSalary?:number;
     bankAccount?:string;
     bankAccountNum?:string;
     isActive?:boolean;

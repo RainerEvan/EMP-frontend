@@ -7,7 +7,7 @@
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-end">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenanceGroup()"></button>
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenanceGroupDialog()"></button>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
@@ -33,9 +33,14 @@
                 <td>{{maintenanceGroup.isActive ? 'Active':'Not Active'}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openMaintenanceGroupDetail(maintenanceGroup)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deleteMaintenanceGroup(maintenanceGroup)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="openDeleteMaintenanceGroupDialog(maintenanceGroup)"></button>
                 </td>
             </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <div class="m-5">
+                <p style="font-size: large;">No data found</p>
+            </div>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
@@ -45,4 +50,31 @@
     </p-table>
 </div>
 
+<p-dialog header="Add Maintenance Group" [(visible)]="addMaintenanceGroupDialog" [style]="{width: '40vw'}" [modal]="true">
+    <div>
+        <form [formGroup]="addMaintenanceGroupForm">
+            <div class="flex-row mb-3">
+                <label for="name" class="block mb-1">Name</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Name" formControlName="name">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="description" class="block mb-1">Description</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Description" formControlName="description">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="isActive" class="block mb-1">Status</label>
+                <div class="flex gap-2 mt-2">
+                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                    <p class="mt-1" style="font-weight: bold;">{{addMaintenanceGroupForm.value.isActive ? 'Active':'Not Active'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-center gap-3 mt-4">
+                <button pButton pRipple label="Submit" class="p-button-sm p-button-success" [disabled]="addMaintenanceGroupForm.invalid" (click)="onSubmitAddMaintenanceGroupForm()"></button>
+                <button pButton pRipple label="Cancel" class="p-button-sm p-button-danger" (click)="closeAddMaintenanceGroupDialog()"></button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
 <p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

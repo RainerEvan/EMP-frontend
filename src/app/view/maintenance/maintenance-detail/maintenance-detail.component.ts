@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { AppConstants } from 'src/app/AppConstants';
 import { Maintenance } from 'src/app/model/maintenance';
 import { MaintenanceGroup } from 'src/app/model/maintenance-group';
 import { MaintenanceService } from 'src/app/service/maintenance.service';
@@ -12,102 +14,233 @@ import { MaintenanceService } from 'src/app/service/maintenance.service';
 })
 export class MaintenanceDetailComponent implements OnInit {
 
+  isLoading: boolean = false;
   isEditable: boolean = false;
 
-  maintenanceDialog: boolean;
   maintenanceGroup: MaintenanceGroup;
-  maintenances: Maintenance[];
-  submitted: boolean;
-  statuses: any[];
 
-  constructor(private router: Router, private maintenanceService: MaintenanceService, private confirmationService: ConfirmationService) { }
+  maintenanceParams: Maintenance[];
+  isLoadingTableMaintenanceParam: boolean = false;
+  isUpdateMaintenanceParam: boolean = false;
+
+  addMaintenanceParamDialog: boolean = false;
+  addMaintenanceParamForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute, private maintenanceService: MaintenanceService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    // this.maintenanceService.getmaintenances().subscribe({
-    //   next:(data:any) => {
-    //       this.maintenances = data;
-    //   },
-    //   error:(error:any) => {
-    //       console.log(error);
-    //   }
-    // });
+    this.getMaintenanceGroupDetail();
+    this.getListMaintenanceParams();
+    this.generateAddMaintenanceParamForm();
+  }
 
-    this.maintenanceGroup =  {
-      id: '1',
-      groupId: '0001',
-      name: 'Employee Tax',
-      description: 'Tax for employee salary',
-      createdAt: '27-10-204',
-      createdBy: 'admin',
-      updatedAt: '-',
-      updatedBy: '-',
-      isActive: true
-    }
+  getMaintenanceGroupDetail(){
+    const maintenanceGroupId = this.route.snapshot.paramMap.get('id');
 
-    this.maintenances = [
-      {
-        id: '1',
-        groupId: '0001',
-        priority: '1',
-        name: 'Employee Tax',
-        description: 'Tax for employee salary',
-        extraCd1: '13000',
-        extraCd2: '-',
-        extraCd3: '-',
-        createdAt: '27-10-204',
-        createdBy: 'admin',
-        updatedAt: '-',
-        updatedBy: '-',
-        isActive: true
+    this.isLoading = true;
+    this.maintenanceService.getMaintenanceGroupDetail(maintenanceGroupId).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.maintenanceGroup = data.output;
+        }
       },
-      {
-        id: '2',
-        groupId: '0002',
-        priority: '2', 
-        name: 'Other Tax',
-        description: 'Other Tax',
-        extraCd1: '13000',
-        extraCd2: '-',
-        extraCd3: '-',
-        createdAt: '27-10-204',
-        createdBy: 'admin',
-        updatedAt: '-',
-        updatedBy: '-',
-        isActive: true
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      },
+      complete:() =>{
+        this.isLoading = false;      }
+    });
+  }
+
+  updateMaintenanceGroup(maintenanceGroup:any){
+    this.isLoading = true;
+    this.maintenanceService.updateMaintenanceGroup(maintenanceGroup.maintenanceGroupId, maintenanceGroup).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.confirmationService.confirm({
+            header: 'Success',
+            message: 'Maintenance group updated successfully!',
+            rejectVisible: false,
+            icon: 'pi pi-check-circle',
+            accept: () => {
+              this.getMaintenanceGroupDetail();
+              this.isEditable = false;
+            }
+          });
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
       }
-    ];
+    });
+  }
+
+  getListMaintenanceParams(){
+    const maintenanceGroupId = this.route.snapshot.paramMap.get('id');
+
+    this.isLoadingTableMaintenanceParam = true;
+    this.maintenanceService.getListMaintenanceParam(maintenanceGroupId).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.maintenanceParams = [...data.output];
+        }
+      },
+      error:(error:any) => {
+        this.isLoadingTableMaintenanceParam = false;
+        console.log(error);
+      },
+      complete:() =>{
+        this.isLoadingTableMaintenanceParam = false;
+      }
+    });
+  }
+
+  
+  addMaintenanceParam(maintenanceParam:any){
+    this.isLoading = true;
+    this.maintenanceService.addMaintenanceParam(maintenanceParam).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.confirmationService.confirm({
+            header: 'Success',
+            message: 'Maintenance Param added successfully!',
+            rejectVisible: false,
+            icon: 'pi pi-check-circle',
+            accept: () => {
+              this.getListMaintenanceParams();
+            }
+          });
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      }
+    });
+  }
+
+  updateMaintenanceParam(maintenanceParam:any){
+    this.isLoading = true;
+    this.maintenanceService.updateMaintenanceParam(maintenanceParam).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.confirmationService.confirm({
+            header: 'Success',
+            message: 'Maintenance Param updated successfully!',
+            rejectVisible: false,
+            icon: 'pi pi-check-circle',
+            accept: () => {
+              this.getListMaintenanceParams();
+            }
+          });
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      }
+    });
+  }
+
+  deleteMaintenanceParam(maintenanceParamCd: string){
+    this.isLoading = true;
+    this.maintenanceService.deleteMaintenanceParam(maintenanceParamCd).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.getListMaintenanceParams();
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      }
+    });
+  }
+
+  onSubmitUpdateMaintenanceGroupForm(){
+    this.updateMaintenanceGroup(this.maintenanceGroup);
+  }
+
+  openAddMaintenanceParamDialog() {
+    this.addMaintenanceParamDialog = true;
+    this.isUpdateMaintenanceParam = false;
+    this.generateAddMaintenanceParamForm();
+  }
+
+  openEditMaintenanceParamDialog(maintenanceParam: Maintenance) {
+    this.addMaintenanceParamDialog = true;
+    this.isUpdateMaintenanceParam = true;
+    this.generateEditMaintenanceParamForm(maintenanceParam);
+  }
+
+  closeAddMaintenanceParamDialog(){
+    this.addMaintenanceParamDialog = false;
+  }
+
+  openDeleteMaintenanceParamDialog(maintenanceParam: Maintenance) {
+    this.confirmationService.confirm({
+        header: 'Delete Maintenance Param',
+        message: 'Are you sure you want to delete ' + maintenanceParam.name + '?',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.deleteMaintenanceParam(maintenanceParam.paramCd);
+        }
+    });
+  }
+
+  generateAddMaintenanceParamForm(){
+    const maintenanceGroupId = this.route.snapshot.paramMap.get('id');
+
+    this.addMaintenanceParamForm = this.formBuilder.group({
+      groupId: [{value: maintenanceGroupId, disabled: true}, Validators.required],
+      name: ['', Validators.required],
+      description: [''],
+      extraCd1: [''],
+      extraCd2: [''],
+      extraCd3: [''],
+      isActive: [true, Validators.required],
+    });
+  }
+
+  generateEditMaintenanceParamForm(maintenanceParam: Maintenance){
+    this.addMaintenanceParamForm = this.formBuilder.group({
+      id: [{value: maintenanceParam.id, disabled: true}, Validators.required],
+      groupId: [{value: this.maintenanceGroup.groupId, disabled: true}, Validators.required],
+      paramCd: [{value: maintenanceParam.paramCd, disabled: true}, Validators.required],
+      name: [maintenanceParam.name, Validators.required],
+      description: [maintenanceParam.description],
+      extraCd1: [maintenanceParam.extraCd1],
+      extraCd2: [maintenanceParam.extraCd2],
+      extraCd3: [maintenanceParam.extraCd3],
+      isActive: [maintenanceParam.isActive, Validators.required],
+    });
+  }
+
+  onSubmitAddMaintenanceParamForm(){
+    if(this.addMaintenanceParamForm.valid){
+      this.addMaintenanceParamDialog = false;
+      this.addMaintenanceParam(this.addMaintenanceParamForm.getRawValue());
+    }
+  }
+
+  onSubmitEditMaintenanceParamForm(){
+    if(this.addMaintenanceParamForm.valid){
+      this.addMaintenanceParamDialog = false;
+      this.updateMaintenanceParam(this.addMaintenanceParamForm.getRawValue());
+    }
   }
 
   back(){
     this.router.navigate(['./maintenance']);
   }
 
-  openAddMaintenance() {
-    this.submitted = false;
-    this.maintenanceDialog = true;
+  toggleEditable(){
+    this.isEditable = !this.isEditable;
   }
-
-  openMaintenanceDetail(maintenance: Maintenance) {
-  }
-
-  deleteMaintenance(maintenance: Maintenance) {
-    this.confirmationService.confirm({
-        message: 'Are you sure you want to delete ' + maintenance.name + '?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            this.maintenances = this.maintenances.filter(val => val.id !== maintenance.id);
-        }
-    });
-  }
-
-  hideDialog() {
-    this.maintenanceDialog = false;
-    this.submitted = false;
-  }
-
-  saveMaintenance() {
-    this.submitted = true;
-  }
-
 }

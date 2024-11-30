@@ -12,19 +12,27 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployees(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/employees`);
+  getListEmployee(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/employee`);
+  }
+
+  getEmployeeDetail(employeeId:string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/employee/${employeeId}`);
+  }
+
+  getEmployeeProfileImage(employeeId:string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/employee/profile-image/${employeeId}`);
   }
 
   addEmployee(employee: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/employees`, employee);
+    return this.http.post(`${this.baseUrl}/employee`, employee);
   }
 
-  updateEmployee(id: string, employee: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/employees/${id}`, employee);
+  updateEmployee(employeeId: string, employee: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/employee/${employeeId}`, employee);
   }
 
-  deleteEmployee(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/employees/${id}`);
+  deleteEmployee(employeeId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/employee/${employeeId}`);
   }
 }

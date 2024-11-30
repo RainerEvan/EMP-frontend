@@ -3,11 +3,11 @@
         <h3>List Employee</h3>
     </div>
     <p-table #dt [value]="employees" [rows]="10" [paginator]="true" [globalFilterFields]="['employeeId','fullName','department','position','status']" [tableStyle]="{'min-width': '75rem'}"
-        [rowHover]="true" dataKey="id"
+        [rowHover]="true" dataKey="id" [loading]="isLoadingTableEmployee"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-end">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddEmployee()"></button>
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddEmployeeDialog()"></button>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
                     <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
@@ -16,32 +16,33 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 3rem;"></th>
+                <th>No</th>
                 <th pSortableColumn="employeeId">Employee ID <p-sortIcon field="employeeId"></p-sortIcon></th>
                 <th pSortableColumn="fullName" style="min-width:10rem">Full Name <p-sortIcon field="fullName"></p-sortIcon></th>
                 <th pSortableColumn="department">Department <p-sortIcon field="department"></p-sortIcon></th>
                 <th pSortableColumn="position" style="min-width:10rem">Position <p-sortIcon field="position"></p-sortIcon></th>
-                <th pSortableColumn="dateStart">Date Start <p-sortIcon field="dateStart"></p-sortIcon></th>
                 <th pSortableColumn="isActive">Status <p-sortIcon field="isActive"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-employee>
+        <ng-template pTemplate="body" let-employee let-rowIndex="rowIndex">
             <tr>
-                <td>
-                    <p-avatar size="large" icon="pi pi-user" styleClass="mr-2" shape="circle"></p-avatar>
-                </td>
+                <td>{{rowIndex+1}}</td>
                 <td>{{employee.employeeId}}</td>
                 <td>{{employee.fullName}}</td>
-                <td>{{employee.department}}</td>
-                <td>{{employee.position}}</td>
-                <td>{{employee.dateStart}}</td>
+                <td>{{employee.departmentDesc}}</td>
+                <td>{{employee.positionDesc}}</td>
                 <td>{{employee.isActive ? 'Active':'Not Active'}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openEmployeeDetail(employee)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deleteEmployee(employee)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="openDeleteEmployeeDialog(employee)"></button>
                 </td>
             </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <div class="m-5">
+                <p style="font-size: large;">No data found</p>
+            </div>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
@@ -51,4 +52,73 @@
     </p-table>
 </div>
 
-<p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>
+<p-dialog header="Add Employee" [(visible)]="addEmployeeDialog" [style]="{width: '50vw'}" [modal]="true">
+    <div>
+        <form [formGroup]="addEmployeeForm">
+            <div class="grid gap-2 mb-3">
+                <div class="col flex-row">
+                    <label for="nik" class="block mb-1">NIK</label>
+                    <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter NIK" formControlName="nik">   
+                </div>
+                <div class="col flex-row">
+                    <label for="fullName" class="block mb-1">Full Name</label>
+                    <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Full Name" formControlName="fullName">   
+                </div>
+            </div>
+            <div class="grid gap-2 mb-3">
+                <div class="col flex-row">
+                    <label for="department" class="block mb-1">Department</label>
+                    <p-dropdown styleClass="w-full" class="p-inputtext-sm" [options]="departments" optionLabel="description" optionValue="name" placeholder="Select Department" formControlName="department"></p-dropdown>
+                </div>
+                <div class="col flex-row">
+                    <label for="position" class="block mb-1">Position</label>
+                    <p-dropdown styleClass="w-full" class="p-inputtext-sm" [options]="positions" optionLabel="description" optionValue="name" placeholder="Select Position" formControlName="position"></p-dropdown>
+                </div>
+            </div>
+            <div class="grid gap-2 mb-3">
+                <div class="col flex-row">
+                    <label for="birthPlace" class="block mb-1">Birth Place</label>
+                    <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Birth Place" formControlName="birthPlace">   
+                </div>
+                <div class="col flex-row">
+                    <label for="birthDate" class="block mb-1">Birth Date</label>
+                    <p-calendar styleClass="w-full" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select Birth Date" formControlName="birthDate"></p-calendar>
+                </div>
+            </div>
+            <div class="grid gap-2 mb-3">
+                <div class="col flex-row">
+                    <label for="phoneNumber" class="block mb-1">Phone Number</label>
+                    <input class="p-inputtext-sm" type="tel" style="width: 100%;" pInputText placeholder="Enter Phone Number" formControlName="phoneNumber">   
+                </div>
+                <div class="col flex-row">
+                    <label for="email" class="block mb-1">Email</label>
+                    <input class="p-inputtext-sm" type="email" style="width: 100%;" pInputText placeholder="Enter Email" formControlName="email">   
+                </div>
+            </div>
+            <div class="grid gap-2 mb-3">
+                <div class="col flex-row">
+                    <label for="dateStart" class="block mb-1">Date Start</label>
+                    <p-calendar styleClass="w-full" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select Date Start" formControlName="dateStart"></p-calendar>
+                </div>
+                <div class="col flex-row">
+                    <label for="dateEnd" class="block mb-1">Date End</label>
+                    <p-calendar styleClass="w-full" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select Date End" formControlName="dateEnd"></p-calendar>
+                </div>
+            </div>
+            <div class="flex-row mb-3">
+                <label for="isActive" class="block mb-1">Status</label>
+                <div class="flex gap-2 mt-2">
+                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                    <p class="mt-1" style="font-weight: bold;">{{addEmployeeForm.value.isActive ? 'Active':'Not Active'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-center gap-3 mt-4">
+                <button pButton pRipple label="Submit" class="p-button-sm p-button-success" [disabled]="addEmployeeForm.invalid" (click)="onSubmitAddEmployeeForm()"></button>
+                <button pButton pRipple label="Cancel" class="p-button-sm p-button-danger" (click)="closeAddEmployeeDialog()"></button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

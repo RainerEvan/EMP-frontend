@@ -5,38 +5,42 @@
     <div class="title">
         <h3>Maintenance Group Detail</h3>
     </div>
-    <div class="w-full box">
+    <div class="w-full box mb-4">
         <div class="flex align-items-center justify-content-between mb-4">
             <h3 class="header">GROUP INFO</h3>
-            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="!isEditable" (click)="toggleEditable()" pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="isEditable" (click)="toggleEditable()" pButton pRipple label="Close" icon="pi pi-times" class="p-button-sm p-button-danger"></button>
         </div>
-        <div class="grid">
+        <div class="grid gap-4" *ngIf="maintenanceGroup">
             <div class="col">
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Group ID</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.groupId}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.groupId" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Group ID" [disabled]="true">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.groupId || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Name</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.name}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.name" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Name">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.name || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Description</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.description}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.description" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Description">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.description || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Status</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
+                        <div *ngIf="isEditable" class="flex gap-2">
+                            <p-inputSwitch [(ngModel)]="maintenanceGroup.isActive"></p-inputSwitch>
+                            <p class="mt-1" style="font-weight: bold;">{{maintenanceGroup.isActive ? 'Active':'Not Active'}}</p>
+                        </div>
                         <p class="value" *ngIf="!isEditable">{{maintenanceGroup.isActive ? 'Active':'Not Active'}}</p>
                     </div>
                 </div>
@@ -45,46 +49,48 @@
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Created At</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.createdAt}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.createdAt" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Created At" [disabled]="true">
+                        <p class="value" *ngIf="!isEditable">{{(maintenanceGroup.createdAt | date:'dd-MM-yyyy') || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Created By</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.createdBy}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.createdBy" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Created By" [disabled]="true">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.createdBy || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Updated At</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.updatedAt}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.updatedAt" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Updated At" [disabled]="true">
+                        <p class="value" *ngIf="!isEditable">{{(maintenanceGroup.updatedAt | date:'dd-MM-yyyy') || '-'}}</p>
                     </div>
                 </div>
                 <div class="grid align-items-center justify-content-between mb-3">
                     <label class="col label" for="username">Updated By</label>
                     <div class="col">
-                        <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.updatedBy}}</p>
+                        <input *ngIf="isEditable" [(ngModel)]="maintenanceGroup.updatedBy" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Updated By" [disabled]="true">
+                        <p class="value" *ngIf="!isEditable">{{maintenanceGroup.updatedBy || '-'}}</p>
                     </div>
                 </div>
             </div>
         </div>
-   
     </div>
-    <div class="w-full box mt-4">
+    <div *ngIf="isEditable" class="flex align-items-center justify-content-end mb-4">
+        <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-sm p-button-success" (click)="onSubmitUpdateMaintenanceGroupForm()"></button>
+    </div>
+    <div class="w-full box">
         <div class="flex align-items-center justify-content-between mb-4">
             <h3 class="header">Maintenance Param</h3>
         </div>
         <div>
-            <p-table #dt [value]="maintenances" [rows]="10" [paginator]="true" [globalFilterFields]="['fileName','countSent','dateLastSent','createdAt']" [tableStyle]="{'min-width': '75rem'}"
+            <p-table #dt [value]="maintenanceParams" [rows]="10" [paginator]="true" [globalFilterFields]="['paramCd','name','description','extraCd1','extraCd2','extraCd3']" [tableStyle]="{'min-width': '75rem'}"
                 [rowHover]="true" dataKey="id"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="flex align-items-center justify-content-end">
-                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenance()"></button>
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-sm mr-2" (click)="openAddMaintenanceParamDialog()"></button>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText class="p-inputtext-sm" type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
@@ -94,9 +100,9 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>No</th>
+                        <th>Param Code</th>
                         <th>Name</th>
                         <th>Description</th>
-                        <th>Priority</th>
                         <th>Extra Code 1</th>
                         <th>Extra Code 2</th>
                         <th>Extra Code 3</th>
@@ -107,22 +113,27 @@
                 <ng-template pTemplate="body" let-maintenance let-rowIndex="rowIndex">
                     <tr>
                         <td>{{rowIndex+1}}</td>
+                        <td>{{maintenance.paramCd}}</td>
                         <td>{{maintenance.name}}</td>
                         <td>{{maintenance.description}}</td>
-                        <td>{{maintenance.priority}}</td>
                         <td>{{maintenance.extraCd1}}</td>
                         <td>{{maintenance.extraCd2}}</td>
                         <td>{{maintenance.extraCd3}}</td>
                         <td>{{maintenance.isActive ? 'Active':'Not Active'}}</td>
                         <td>
-                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openmaintenanceDetail(maintenance)"></button>
-                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="deletemaintenance(maintenance)"></button>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openEditMaintenanceParamDialog(maintenance)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="openDeleteMaintenanceParamDialog(maintenance)"></button>
                         </td>
                     </tr>
                 </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <div class="m-5">
+                        <p style="font-size: large;">No data found</p>
+                    </div>
+                </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="flex align-items-center justify-content-between">
-                        Total Report {{maintenances ? maintenances.length : 0 }}
+                        Total Param {{maintenances ? maintenances.length : 0 }}
                     </div>
                 </ng-template>
             </p-table>
@@ -130,4 +141,48 @@
     </div>
 </div>
 
+<p-dialog header="Add Maintenance Param" [(visible)]="addMaintenanceParamDialog" [style]="{width: '40vw'}" [modal]="true">
+    <div>
+        <form [formGroup]="addMaintenanceParamForm">
+            <div class="flex-row mb-3">
+                <label for="groupId" class="block mb-1">Group ID</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter group ID" formControlName="groupId">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="name" class="block mb-1">Name</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Name" formControlName="name">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="description" class="block mb-1">Description</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Description" formControlName="description">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="extraCd1" class="block mb-1">Extra CD 1</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Extra CD 1" formControlName="extraCd1">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="extraCd2" class="block mb-1">Extra CD 2</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Extra CD 2" formControlName="extraCd2">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="extraCd3" class="block mb-1">Extra CD 3</label>
+                <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Extra CD 3" formControlName="extraCd3">   
+            </div>
+            <div class="flex-row mb-3">
+                <label for="isActive" class="block mb-1">Status</label>
+                <div class="flex gap-2 mt-2">
+                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                    <p class="mt-1" style="font-weight: bold;">{{addMaintenanceParamForm.value.isActive ? 'Active':'Not Active'}}</p>
+                </div>
+            </div>
+            <div class="flex align-items-center justify-content-center gap-3 mt-4">
+                <button *ngIf="!isUpdateMaintenanceParam" pButton pRipple label="Submit" class="p-button-sm p-button-success" [disabled]="addMaintenanceParamForm.invalid" (click)="onSubmitAddMaintenanceParamForm()"></button>
+                <button *ngIf="isUpdateMaintenanceParam" pButton pRipple label="Submit" class="p-button-sm p-button-success" [disabled]="addMaintenanceParamForm.invalid" (click)="onSubmitEditMaintenanceParamForm()"></button>
+                <button pButton pRipple label="Cancel" class="p-button-sm p-button-danger" (click)="closeAddMaintenanceParamDialog()"></button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
 <p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

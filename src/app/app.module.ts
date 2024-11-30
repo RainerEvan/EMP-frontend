@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MainComponent } from './view/main/main.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
@@ -19,6 +20,8 @@ import { TabViewModule } from 'primeng/tabview';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     SidebarModule,

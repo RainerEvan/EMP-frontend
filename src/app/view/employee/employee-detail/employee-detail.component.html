@@ -5,33 +5,21 @@
     <div class="title">
         <h3>Employee Detail</h3>
     </div>
-    <p-tabView styleClass="tabview-custom">
-        <p-tabPanel header="Profile">
-            <ng-template pTemplate = "header">
-                <i class="pi pi-id-card mr-2"></i>
-                <span>Profile</span>
-            </ng-template>
-            <app-profile></app-profile>
-        </p-tabPanel>
-        <p-tabPanel header="Paycheck">
-            <ng-template pTemplate = "header">
-                <i class="pi pi-briefcase mr-2"></i>
-                <span>Work</span>
+    <p-tabView (onChange)="selectTab($event)">
+        <p-tabPanel *ngFor="let tab of tabs; let i = index" [selected]="i == selectedTabs">
+            <ng-template pTemplate="header">
+              <i [class]="tab.icon + ' mr-2'"></i>
+              <span>{{ tab.header }}</span>
             </ng-template>
             <ng-template pTemplate="content">
-                <app-work></app-work>
+              <ng-container [ngSwitch]="tab.type">
+                <app-profile *ngSwitchCase="'profile'" [employee]="employee" (refreshEmployee)="getEmployeeDetail()"></app-profile>
+                <app-work *ngSwitchCase="'work'" [employee]="employee"></app-work>
+                <app-paycheck *ngSwitchCase="'paycheck'" [employee]="employee"></app-paycheck>
+              </ng-container>
             </ng-template>
-        </p-tabPanel>
-        <p-tabPanel header="Paycheck">
-            <ng-template pTemplate = "header">
-                <i class="pi pi-money-bill mr-2"></i>
-                <span>Paycheck</span>
-            </ng-template>
-            <ng-template pTemplate="content">
-                <app-paycheck></app-paycheck>
-            </ng-template>
-        </p-tabPanel>
+          </p-tabPanel>
     </p-tabView>
 </div>
 
-<p-confirmDialog [style]="{width: '450px'}"  rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>
+<app-loading [displayLoading]="isLoading"></app-loading>

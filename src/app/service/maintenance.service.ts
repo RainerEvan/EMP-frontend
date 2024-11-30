@@ -12,19 +12,39 @@ export class MaintenanceService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployees(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/employees`);
+  getListMaintenanceGroup(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/maintenance/group`);
   }
 
-  addEmployee(employee: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/employees`, employee);
+  getMaintenanceGroupDetail(maintenanceGroupId:string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/maintenance/group/${maintenanceGroupId}`);
   }
 
-  updateEmployee(id: string, employee: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/employees/${id}`, employee);
+  addMaintenanceGroup(maintenanceGroup: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/maintenance/group`, maintenanceGroup);
   }
 
-  deleteEmployee(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/employees/${id}`);
+  updateMaintenanceGroup(maintenanceGroupId: string, maintenanceGroup: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/maintenance/group/${maintenanceGroupId}`, maintenanceGroup);
+  }
+
+  deleteMaintenanceGroup(maintenanceGroupId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/maintenance/group/${maintenanceGroupId}`);
+  }
+
+  getListMaintenanceParam(maintenanceGroupId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/maintenance/param/${maintenanceGroupId}`);
+  }
+
+  addMaintenanceParam(maintenanceParam: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/maintenance/param`, maintenanceParam);
+  }
+
+  updateMaintenanceParam(maintenanceParam: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/maintenance/param`, maintenanceParam);
+  }
+
+  deleteMaintenanceParam(maintenanceParamCd: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/maintenance/param/${maintenanceParamCd}`);
   }
 }

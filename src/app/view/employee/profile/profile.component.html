@@ -1,56 +1,63 @@
-<div class="flex gap-4">
+<div class="flex gap-4 mb-4" *ngIf="employee">
     <div class="box flex-row align-items-center justify-content-center">
         <p-avatar icon="pi pi-user"></p-avatar>
-        <div class="flex align-items-center justify-content-center mt-4">
+        <div *ngIf="isEditable" class="flex align-items-center justify-content-center mt-4">
             <button pButton pRipple label="Upload Image" icon="pi pi-upload" class="p-button-sm"></button>
         </div>
     </div>
     <div class="w-full box">
         <div class="flex align-items-center justify-content-between mb-4">
             <h3 class="header">PERSONAL INFO</h3>
-            <button pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="!isEditable" (click)="toggleEditable()" pButton pRipple label="Edit" icon="pi pi-pencil" class="p-button-sm"></button>
+            <button *ngIf="isEditable" (click)="toggleEditable()" pButton pRipple label="Close" icon="pi pi-times" class="p-button-sm p-button-danger"></button>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">NIK</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">327310298410001</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.nik" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter NIK">
+                <p class="value" *ngIf="!isEditable">{{employee.nik || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Full Name</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Abraham Johnson</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.fullName" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Full Name">
+                <p class="value" *ngIf="!isEditable">{{employee.fullName || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Birth Place</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">Bandung</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.birthPlace" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Birth Place">
+                <p class="value" *ngIf="!isEditable">{{employee.birthPlace || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Birth Date</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">10-Maret-2001</p>
+                <p-calendar  *ngIf="isEditable" styleClass="w-full" [(ngModel)]="employee.birthDate" class="p-inputtext-sm" appendTo="body" dateFormat="dd-mm-yy" dataType="string" [showButtonBar]="true" [showIcon]="true" placeholder="Select Birth Date"></p-calendar>
+                <p class="value" *ngIf="!isEditable">{{employee.birthDate || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between mb-3">
             <label class="col label" for="username">Phone Number</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">081297112939</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.phoneNumber" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Phone Number">
+                <p class="value" *ngIf="!isEditable">{{employee.phoneNumber || '-'}}</p>
             </div>
         </div>
         <div class="grid align-items-center justify-content-between">
             <label class="col label" for="username">Email</label>
             <div class="col">
-                <input *ngIf="isEditable" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Full Name">
-                <p class="value" *ngIf="!isEditable">abraham_johnsongmail.com</p>
+                <input *ngIf="isEditable" [(ngModel)]="employee.email" class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Enter Email">
+                <p class="value" *ngIf="!isEditable">{{employee.email || '-'}}</p>
             </div>
         </div>
     </div>
 </div>
+<div *ngIf="isEditable" class="flex align-items-center justify-content-end mb-3">
+    <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-sm p-button-success" (click)="onSubmitUpdateEmployeeProfileForm()"></button>
+</div>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>
