@@ -166,7 +166,7 @@ export class EmployeeListComponent implements OnInit {
         message: 'Are you sure you want to delete ' + employee.employeeId + ' - ' + employee.fullName + '?',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.deleteEmployee(employee.employeeId);
+          this.deleteEmployee(employee.id);
         }
     });
   }

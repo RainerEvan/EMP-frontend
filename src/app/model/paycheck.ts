@@ -14,6 +14,8 @@ export interface Paycheck{
     totalNetIncome?:number;
     fileName?:string;
     fileBase64?:string;
+    bankAccount?:string;
+    bankAccountNum?:string;
     dateLastSent?:string;
     countSent?:number;
     createdAt?:string;

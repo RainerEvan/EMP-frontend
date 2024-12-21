@@ -32,6 +32,10 @@ export class EmployeeService {
     return this.http.put(`${this.baseUrl}/employee/${employeeId}`, employee);
   }
 
+  updateEmployeeProfileImage(employeeId: string, formData: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/employee/profile-image/${employeeId}`, formData);
+  }
+
   deleteEmployee(employeeId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/employee/${employeeId}`);
   }

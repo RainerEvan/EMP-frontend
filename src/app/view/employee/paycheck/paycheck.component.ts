@@ -24,7 +24,7 @@ export class PaycheckComponent implements OnInit {
   submitted: boolean;
   statuses: any[];
 
-  constructor(private sanitizer: DomSanitizer, private router: Router, private paycheckService: PaycheckService, private confirmationService: ConfirmationService) { }
+  constructor(private router: Router, private paycheckService: PaycheckService, private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     if(this.employee){
@@ -69,12 +69,49 @@ export class PaycheckComponent implements OnInit {
     this.router.navigate([`employee/${employeeId}/paycheck/${paycheck.id}`]);
   }
 
-  openPaycheckFile(paycheck: Paycheck) {
-    const pdfUrl = '../assets/sample.pdf';
-    window.open(pdfUrl as string, '_blank');
+  generatePaycheckReport(paycheckId: string) {
+    this.isLoading = true;
+    this.paycheckService.getPaycheckReport(paycheckId).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.viewPdf(data.output);
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      },
+      complete:() =>{
+        this.isLoading = false;
+      }
+    });
   }
 
-  sendPaycheckEmail(paycheck: Paycheck) {
+  sendPaycheckEmail(paycheckId: string) {
+    this.isLoading = true;
+    this.paycheckService.sendPaycheckEmail(paycheckId).subscribe({
+      next:(data:any) => {
+        if(data.message == AppConstants.SUCCESS_MSG){
+          this.isLoading = false;
+          this.confirmationService.confirm({
+            header: 'Success',
+            message: 'Paycheck email sent successfully!',
+            rejectVisible: false,
+            icon: 'pi pi-check-circle',
+            accept: () => {
+              this.getListPaychecks();
+            }
+          });
+        }
+      },
+      error:(error:any) => {
+        this.isLoading = false;
+        console.log(error);
+      },
+      complete:() =>{
+        this.isLoading = false;
+      }
+    });
   }
 
   deletePaycheck(paycheckId: string){
@@ -96,6 +133,28 @@ export class PaycheckComponent implements OnInit {
     });
   }
 
+  openGenerateReportDialog(paycheck: Paycheck){
+    this.confirmationService.confirm({
+      header: 'View PDF',
+      message: 'Do you want to view in PDF?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.generatePaycheckReport(paycheck.id);
+      }
+    });
+  }
+
+  openSendEmailDialog(paycheck: Paycheck){
+    this.confirmationService.confirm({
+      header: 'View PDF',
+      message: 'Do you want to send paycheck email?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.sendPaycheckEmail(paycheck.id);
+      }
+    });
+  }
+
   openDeletePaycheckDialog(paycheck: Paycheck) {
     this.confirmationService.confirm({
         header: 'Delete Paycheck',
@@ -105,5 +164,21 @@ export class PaycheckComponent implements OnInit {
           this.deletePaycheck(paycheck.id);
         }
     });
+  }
+
+  viewPdf(base64: string): void {
+    const binaryString = window.atob(base64);
+    
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([bytes.buffer], { type: 'application/pdf' });
+    
+    const blobUrl = URL.createObjectURL(blob);
+    
+    window.open(blobUrl, '_blank');
   }
 }

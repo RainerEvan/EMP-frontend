@@ -16,5 +16,6 @@ export interface Employee{
     baseSalary?:number;
     bankAccount?:string;
     bankAccountNum?:string;
+    profileImage?:string;
     isActive?:boolean;
 }

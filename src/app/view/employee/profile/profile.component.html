@@ -1,8 +1,9 @@
 <div class="flex gap-4 mb-4" *ngIf="employee">
     <div class="box flex-row align-items-center justify-content-center">
-        <p-avatar icon="pi pi-user"></p-avatar>
+        <p-avatar *ngIf="!employeeImageUrl" icon="pi pi-user"></p-avatar>
+        <img *ngIf="employeeImageUrl" [src]="employeeImageUrl" alt="Profile Image" class="image-avatar">
         <div *ngIf="isEditable" class="flex align-items-center justify-content-center mt-4">
-            <button pButton pRipple label="Upload Image" icon="pi pi-upload" class="p-button-sm"></button>
+            <button (click)="openUploadImageDialog()" pButton pRipple label="Upload Image" icon="pi pi-upload" class="p-button-sm"></button>
         </div>
     </div>
     <div class="w-full box">
@@ -58,6 +59,23 @@
 <div *ngIf="isEditable" class="flex align-items-center justify-content-end mb-3">
     <button pButton pRipple label="Save" icon="pi pi-save" class="p-button-sm p-button-success" (click)="onSubmitUpdateEmployeeProfileForm()"></button>
 </div>
+
+<p-dialog header="Upload Profile Image" [(visible)]="uploadImageDialog" [style]="{width: '50vw'}" [modal]="true">
+    <div>
+        <div class="flex align-items-center justify-content-center">
+            <div (click)="fileInput.click()" class="upload-image-box">
+                <img *ngIf="imageUrl" [src]="imageUrl" alt="Profile Image" class="image-box">
+                <input #fileInput accept="image/*" type="file" class="hidden" (change)="onSelectFile($event)"/>
+                <span *ngIf="!imageUrl">Select Image</span>
+            </div>
+        </div>
+        <p style="text-align: center;color: red;" *ngIf="uploadFileErrorMessage != ''">{{uploadFileErrorMessage}}</p>
+        <div class="flex align-items-center justify-content-center gap-3 mt-4">
+            <button pButton pRipple label="Submit" class="p-button-sm p-button-success" [disabled]="!profileImg" (click)="onSubmitUpdateProfileImage()"></button>
+            <button pButton pRipple label="Cancel" class="p-button-sm p-button-danger" (click)="closeUploadImageDialog()"></button>
+        </div>
+    </div>
+</p-dialog>
 
 <app-loading [displayLoading]="isLoading"></app-loading>
 <p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

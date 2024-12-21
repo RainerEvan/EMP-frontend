@@ -133,7 +133,9 @@ export class PaycheckDetailComponent implements OnInit {
       tax: 0,
       otherCut: 0,
       totalDeduction: 0,
-      totalNetIncome: 0
+      totalNetIncome: 0,
+      bankAccount: this.employee.bankAccount,
+      bankAccountNum: this.employee.bankAccountNum
     }
   }
 
@@ -189,6 +191,7 @@ export class PaycheckDetailComponent implements OnInit {
       next:(data:any) => {
         if(data.message == AppConstants.SUCCESS_MSG){
           this.paycheckFileBase64 = data.output;
+          this.viewPdf(this.paycheckFileBase64);
         }
       },
       error:(error:any) => {
@@ -243,5 +246,21 @@ export class PaycheckDetailComponent implements OnInit {
         this.generatePaycheckReport();
       }
     });
+  }
+
+  viewPdf(base64: string): void {
+    const binaryString = window.atob(base64);
+    
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([bytes.buffer], { type: 'application/pdf' });
+    
+    const blobUrl = URL.createObjectURL(blob);
+    
+    window.open(blobUrl, '_blank');
   }
 }

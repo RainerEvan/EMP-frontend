@@ -31,12 +31,12 @@
                         <td>{{rowIndex+1}}</td>
                         <td>{{paycheck.fileName}}</td>
                         <td>{{paycheck.countSent}}</td>
-                        <td>{{paycheck.dateLastSent}}</td>
+                        <td>{{paycheck.dateLastSent | date:'dd-MM-yyyy'}}</td>
                         <td>{{paycheck.createdAt | date:'dd-MM-yyyy'}}</td>
                         <td>
                             <button pButton pRipple icon="pi pi-info-circle" class="p-button-rounded p-button-sm p-button-info mr-2" (click)="openPaycheckDetail(paycheck)"></button>
-                            <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-outlined p-button-sm p-button-info mr-2" (click)="openPaycheckFile(paycheck)"></button>
-                            <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded p-button-sm p-button-help mr-2" (click)="sendPaycheckEmail(paycheck)"></button>
+                            <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-outlined p-button-sm p-button-info mr-2" (click)="openGenerateReportDialog(paycheck)"></button>
+                            <button pButton pRipple icon="pi pi-envelope" class="p-button-rounded p-button-sm p-button-help mr-2" (click)="openSendEmailDialog(paycheck)"></button>
                             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-sm p-button-danger" (click)="openDeletePaycheckDialog(paycheck)"></button>
                         </td>
                     </tr>

@@ -88,6 +88,7 @@ export class WorkComponent implements OnInit {
             accept: () => {
               this.refreshEmployee.emit();
               this.isEditable = false;
+              window.location.reload();
             }
           });
         }

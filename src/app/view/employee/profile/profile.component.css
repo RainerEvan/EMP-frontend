@@ -9,6 +9,13 @@
     font-size: 36px;
 }
 
+.image-avatar{
+    width: 240px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+}
+
 .box {
     border: 1px solid #dee2e6;
     border-radius: 6px;
@@ -18,4 +25,23 @@
 .value {
     color: #a7a7a7;
     font-weight: lighter;
+}
+
+.upload-image-box {
+    width: 240px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    border: 2px dashed #b8b8b8;
+    border-radius: 6px;
+    color: #b8b8b8;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }

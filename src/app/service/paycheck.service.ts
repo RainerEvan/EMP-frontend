@@ -24,6 +24,10 @@ export class PaycheckService {
     return this.http.get(`${this.baseUrl}/paycheck/report/${paycheckId}`);
   }
 
+  sendPaycheckEmail(paycheckId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/paycheck/send-email/${paycheckId}`, null);
+  }
+
   addPaycheck(paycheck: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/paycheck`, paycheck);
   }
