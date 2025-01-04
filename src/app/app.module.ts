@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MainComponent } from './view/main/main.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -11,6 +11,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { SidebarModule } from 'primeng/sidebar';
 import { TabViewModule } from 'primeng/tabview';
+import { JwtInterceptor } from './util/jwt-interceptor/jwt.interceptor';
+import { ErrorInterceptor } from './util/error-interceptor/error.interceptor';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -26,9 +31,18 @@ import { TabViewModule } from 'primeng/tabview';
     HttpClientModule,
     SidebarModule,
     ButtonModule,
-    TabViewModule
+    TabViewModule,
+    ConfirmDialogModule
   ],
-  providers: [],
+  providers: [
+    { 
+      provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true 
+    },
+    { 
+      provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true 
+    },
+    ConfirmationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

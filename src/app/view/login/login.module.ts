@@ -7,6 +7,10 @@ import { LoginComponent } from './login.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,9 +19,14 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     CommonModule,
     LoginRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
     CardModule,
     InputTextModule,
-    ButtonModule
-  ]
+    ButtonModule,
+    ConfirmDialogModule
+  ],
+  providers:[ConfirmationService]
 })
 export class LoginModule { }

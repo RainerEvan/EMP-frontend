@@ -6,7 +6,7 @@
                 <p>EMPLOYEE MANAGEMENT</p>
             </div>
         </div>
-        <div class="flex align-items-center justify-content-center mb-4">
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex align-items-center justify-content-center mb-4">
             <p-card [style]="{width: '360px'}" styleClass="p-card-shadow">
                 <ng-template pTemplate="content">
                     <div class="flex-row">
@@ -15,12 +15,12 @@
                         </div>
                         <div class="flex-row">
                             <label for="username" class="block mb-1">Username</label>
-                            <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Username">   
+                            <input class="p-inputtext-sm" type="text" style="width: 100%;" pInputText placeholder="Username" formControlName="username">   
                         </div>
                         <div class="flex-row my-2">
                             <label for="password" class="block mb-1">Password</label>
                             <div class="p-inputgroup" style="width: 100%;">
-                                <input class="p-inputtext-sm" [type]="showPassword ? 'text':'password'" pInputText placeholder="Password">   
+                                <input class="p-inputtext-sm" [type]="showPassword ? 'text':'password'" pInputText placeholder="Password" formControlName="password">   
                                 <button class="p-button-sm" (click)="toggleShowPassword()" type="button" pButton pRipple icon="pi pi-eye"></button>      
                             </div>
                         </div>
@@ -28,10 +28,13 @@
                 </ng-template>
                 <ng-template pTemplate="footer">
                     <div class="w-full">
-                        <button class="w-full p-button-sm" pButton pRipple type="button" label="Login" ></button>
+                        <button class="w-full p-button-sm" pButton pRipple type="submit" label="Login" [disabled]="loginForm.invalid"></button>
                     </div>
                 </ng-template>
             </p-card>
-        </div>
+        </form>
     </div>
 </div>
+
+<app-loading [displayLoading]="isLoading"></app-loading>
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>

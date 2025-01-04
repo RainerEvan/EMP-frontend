@@ -14,7 +14,7 @@
 <p-sidebar [(visible)]="showSidebar" [baseZIndex]="400" position="left" [style]="{width:'16em'}" [showCloseIcon]="false" [appendTo]="maincontainer">
     <ng-template pTemplate="header">
         <div class="mt-7">
-            <h3>Welcome Bob</h3>
+            <h3>Welcome {{username}}</h3>
         </div>
     </ng-template>
     <ng-template pTemplate="content">
@@ -27,6 +27,8 @@
         </div>
     </ng-template>
     <ng-template pTemplate="footer">
-        <button class="w-full p-button-sm" icon="pi pi-sign-out" pButton pRipple type="button" label="Logout" ></button>
+        <button class="w-full p-button-sm" icon="pi pi-sign-out" pButton pRipple type="button" label="Logout" (click)="confirmLogout()"></button>
     </ng-template>
 </p-sidebar>
+
+<p-confirmDialog [style]="{width: '450px'}" rejectButtonStyleClass="p-button-text p-button-sm" acceptButtonStyleClass="p-button-sm"></p-confirmDialog>
